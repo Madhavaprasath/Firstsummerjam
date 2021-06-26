@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "Stack_Finate_state_machine",
 "language": "GDScript",
 "path": "res://Finate state machine/FSM.gd"
+}, {
+"base": "Node",
+"class": "State",
+"language": "GDScript",
+"path": "res://Actor/Player/Player_states/Idle.gd"
 } ]
 _global_script_class_icons={
-"Stack_Finate_state_machine": ""
+"Stack_Finate_state_machine": "",
+"State": ""
 }
 
 [application]
