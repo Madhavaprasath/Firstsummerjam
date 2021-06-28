@@ -1,9 +1,9 @@
 extends State
 
-func play_current_state(delta,parent):
+func play_current_state(delta):
 	parent.move_actor(delta)
 
-func check_exit_condition(parent):
+func check_exit_condition():
 	if parent.is_on_floor():
 		if parent.direction==0:
 			return "Idle"

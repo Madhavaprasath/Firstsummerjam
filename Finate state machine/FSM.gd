@@ -4,18 +4,17 @@ class_name Stack_Finate_state_machine
 onready var parent=get_parent()
 onready var animation_player=parent.get_node("Body/AnimationPlayer")
 var stack:Array
- 
+
 func _ready():
 	self.stack=[]
 
 func _physics_process(delta):
 	var current_state=get_current_state()
 	if current_state !=null:
-		print(current_state)
-		get_node(current_state).play_current_state(delta,parent)
+		get_node(current_state).play_current_state(delta)
 		#if animation_player.current_animation!=current_state:
 			#animation_player.play(current_state)
-		var next_state=get_node(current_state).check_exit_condition(parent)
+		var next_state=get_node(current_state).check_exit_condition()
 		if next_state!=null:
 			pop_state()
 			push_state(next_state)
