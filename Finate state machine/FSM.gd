@@ -14,7 +14,6 @@ func _physics_process(delta):
 	var current_state=get_current_state()
 	if current_state !=null:
 		get_node(current_state).play_current_state(delta)
-		print(current_state)
 		#if animation_player.current_animation!=current_state:
 			#animation_player.play(current_state)
 		var next_state=get_node(current_state).check_exit_condition()

@@ -36,10 +36,16 @@ func check_direction()->int:
 
 func apply_gravity(delta):
 	velocity.y+=gravity*delta
+	print(can_fall_through())
 
 func can_fall_through():
 	if is_on_floor():
-		return true
+		for index in get_slide_count():
+			var collision=get_slide_collision(index)
+			if collision.collider.is_in_group("Drop_thru"):
+				if collision.normal.dot(get_floor_normal())==1:
+					return true
+	return false
 
 func cancel_fall_through():
 	if !get_collision_mask_bit(1):
