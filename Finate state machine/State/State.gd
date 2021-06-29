@@ -11,3 +11,6 @@ func play_current_state(delta):
 
 func check_exit_condition():
 	pass
+
+func check_previous_state_condition(previous_state):
+	pass

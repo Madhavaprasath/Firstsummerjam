@@ -16,11 +16,10 @@ func _unhandled_input(event):
 				jump()
 		elif event.is_action_released("ui_up")&&velocity.y>min_jump_velocity:
 				short_jump()
-				cancel_fall_through()
-		if event.is_action_pressed("ui_down"):
-			fall_through()
 func _physics_process(delta):
 	apply_gravity(delta)
+
+
 
 
 func move_actor(delta):
@@ -38,9 +37,9 @@ func check_direction()->int:
 func apply_gravity(delta):
 	velocity.y+=gravity*delta
 
-func fall_through():
+func can_fall_through():
 	if is_on_floor():
-		set_collision_mask_bit(1,false)
+		return true
 
 func cancel_fall_through():
 	if !get_collision_mask_bit(1):
@@ -52,4 +51,7 @@ func jump():
 
 func short_jump():
 	velocity.y=min_jump_velocity
+
+
+
 

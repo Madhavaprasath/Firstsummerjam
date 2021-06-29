@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Actor/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Actor/Actor.tscn" type="PackedScene" id=2]
@@ -9,6 +9,9 @@
 [ext_resource path="res://Actor/Player/Player_states/Slide.gd" type="Script" id=7]
 [ext_resource path="res://Actor/Player/Player_states/Fall.gd" type="Script" id=8]
 [ext_resource path="res://Actor/Player/Player_Sprite.gd" type="Script" id=9]
+[ext_resource path="res://Actor/Player/Player_states/Smash.gd" type="Script" id=10]
+[ext_resource path="res://Actor/Player/Player_particles.gd" type="Script" id=11]
+[ext_resource path="res://Actor/Player/Player_states/Drop_fall.gd" type="Script" id=12]
 
 [sub_resource type="Shader" id=2]
 code = "shader_type canvas_item;"
@@ -43,19 +46,28 @@ script = ExtResource( 8 )
 script = ExtResource( 7 )
 
 [node name="Smash" type="Node" parent="FSM" index="5"]
+script = ExtResource( 10 )
+
+[node name="Drop_fall" type="Node" parent="FSM" index="6"]
+script = ExtResource( 12 )
 
 [node name="Sprite" parent="Body" index="0"]
 material = SubResource( 3 )
 texture = ExtResource( 5 )
 script = ExtResource( 9 )
 
-[node name="Particles2D" type="CPUParticles2D" parent="Body" index="2"]
+[node name="Player_particles" type="CPUParticles2D" parent="Body" index="2"]
 z_index = -2
+emitting = false
 local_coords = false
 texture = ExtResource( 5 )
 gravity = Vector2( 0, 0 )
 color_ramp = SubResource( 4 )
+script = ExtResource( 11 )
 
 [node name="CollisionShape2D" parent="." index="2"]
 position = Vector2( 0, -0.667419 )
 shape = SubResource( 1 )
+
+[connection signal="Emit_particles" from="FSM/Idle" to="Body/Player_particles" method="Emit_particles"]
+[connection signal="Emit_particles" from="FSM/Smash" to="Body/Player_particles" method="Emit_particles"]
