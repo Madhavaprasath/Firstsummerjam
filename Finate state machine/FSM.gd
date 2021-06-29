@@ -16,11 +16,15 @@ func _physics_process(delta):
 		get_node(current_state).play_current_state(delta)
 		#if animation_player.current_animation!=current_state:
 			#animation_player.play(current_state)
-		var next_state=get_node(current_state).check_exit_condition()
-		if next_state!=null:
-			previous_state=pop_state()
-			push_state(next_state)
-			get_node(next_state).check_previous_state_condition(previous_state)
+	var next_state=get_node(current_state).check_exit_condition()
+	if next_state!=null:
+		previous_state=pop_state()
+		push_state(next_state)
+		get_node(next_state).check_previous_state_condition(previous_state)
+	
+
+
+
 func push_state(state):
 	if get_current_state() !=state:
 		stack.push_front(state)

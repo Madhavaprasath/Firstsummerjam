@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Actor/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Actor/Actor.tscn" type="PackedScene" id=2]
@@ -12,18 +12,19 @@
 [ext_resource path="res://Actor/Player/Player_states/Smash.gd" type="Script" id=10]
 [ext_resource path="res://Actor/Player/Player_particles.gd" type="Script" id=11]
 [ext_resource path="res://Actor/Player/Player_states/Drop_fall.gd" type="Script" id=12]
+[ext_resource path="res://Actor/Player/Player_states/Dash.gd" type="Script" id=13]
 
-[sub_resource type="Shader" id=2]
+[sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;"
 
-[sub_resource type="ShaderMaterial" id=3]
-shader = SubResource( 2 )
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
 
-[sub_resource type="Gradient" id=4]
+[sub_resource type="Gradient" id=3]
 offsets = PoolRealArray( 0, 0.993289 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 31.6709, 32.0691 )
 
 [node name="Player" instance=ExtResource( 2 )]
@@ -45,14 +46,17 @@ script = ExtResource( 8 )
 [node name="Slide" type="Node" parent="FSM" index="4"]
 script = ExtResource( 7 )
 
-[node name="Smash" type="Node" parent="FSM" index="5"]
-script = ExtResource( 10 )
-
-[node name="Drop_fall" type="Node" parent="FSM" index="6"]
+[node name="Drop_fall" type="Node" parent="FSM" index="5"]
 script = ExtResource( 12 )
 
+[node name="Dash" type="Node" parent="FSM" index="6"]
+script = ExtResource( 13 )
+
+[node name="Smash" type="Node" parent="FSM" index="7"]
+script = ExtResource( 10 )
+
 [node name="Sprite" parent="Body" index="0"]
-material = SubResource( 3 )
+material = SubResource( 2 )
 texture = ExtResource( 5 )
 script = ExtResource( 9 )
 
@@ -62,12 +66,15 @@ emitting = false
 local_coords = false
 texture = ExtResource( 5 )
 gravity = Vector2( 0, 0 )
-color_ramp = SubResource( 4 )
+color_ramp = SubResource( 3 )
 script = ExtResource( 11 )
 
 [node name="CollisionShape2D" parent="." index="2"]
 position = Vector2( 0, -0.667419 )
-shape = SubResource( 1 )
+shape = SubResource( 4 )
+
+[node name="Areas" type="Node2D" parent="." index="3"]
 
 [connection signal="Emit_particles" from="FSM/Idle" to="Body/Player_particles" method="Emit_particles"]
+[connection signal="Emit_particles" from="FSM/Dash" to="Body/Player_particles" method="Emit_particles"]
 [connection signal="Emit_particles" from="FSM/Smash" to="Body/Player_particles" method="Emit_particles"]
