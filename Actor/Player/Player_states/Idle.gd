@@ -17,7 +17,6 @@ func check_exit_condition():
 			return "Fall"
 		elif parent.velocity.y<0:
 			return "Jump"
-
 func check_previous_state_condition(previous_state):
 	if previous_state in ["Dash","Smash"]:
 		emit_signal("Emit_particles",false)

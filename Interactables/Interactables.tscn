@@ -37,6 +37,8 @@ shader_param/out_line_color = Color( 0.867188, 0.0948486, 0.0948486, 1 )
 extents = Vector2( 31.8846, 32.1576 )
 
 [node name="Interactables" type="Area2D"]
+collision_layer = 4
+collision_mask = 0
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]

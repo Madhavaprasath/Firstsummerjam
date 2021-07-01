@@ -1,11 +1,15 @@
 extends "res://Actor/Actor.gd"
 
+const wall_Jump_velocity=350.0
 #actor should run walk slide Jump and some attack too later 
 
 var direction
 
 var Jumping=false
 var short_jumping=false
+
+var can_wall_slide=false
+var wall_slide_direction
 
 func _ready():
 	fsm.push_state("Idle")
@@ -20,8 +24,9 @@ func _unhandled_input(event):
 
 
 
-
-
+func _physics_process(delta):
+	
+	pass
 func move_actor(delta,Idle=false):
 	if !Idle:
 		direction=check_direction()
@@ -36,8 +41,26 @@ func check_direction()->int:
 				"right":Input.is_action_pressed("ui_right")}
 	return int(direction_dict["right"])-int(direction_dict["left"])
 
+
+func check_wall_slide():
+	can_wall_slide =(is_on_wall() && (Input.is_action_pressed("ui_left")||Input.is_action_pressed("ui_right")))
+
+func check_wall_jump():
+	var direction=(Input.is_action_pressed("ui_left")||Input.is_action_pressed("ui_right"))
+	var Jump=(Input.is_action_pressed("ui_up"))
+	return direction&&Jump
+
+func wall_jump(delta):
+	if check_wall_jump():
+		var wall_jump_direction=int(Input.is_action_pressed("ui_left"))-int(Input.is_action_pressed("ui_right"))
+		if wall_slide_direction!=wall_jump_direction&&wall_jump_direction!=0:
+			velocity.y=350
+
 func apply_gravity(delta):
-	velocity.y+=gravity*delta
+	if can_wall_slide:
+		velocity.y=(gravity*delta)/2
+	else:
+		velocity.y+=gravity*delta
 
 func can_fall_through():
 	if is_on_floor():
@@ -48,6 +71,15 @@ func can_fall_through():
 					return true
 	return false
 
+
+func wall_slide(delta):
+	if can_wall_slide:
+		wall_slide_direction=-int(Input.is_action_pressed("ui_left"))+int(Input.is_action_pressed("ui_right"))
+		if wall_slide_direction!=0:
+			velocity.x=wall_slide_direction*speed
+		else:
+			can_wall_slide=false
+	velocity=move_and_slide(velocity,Vector2.UP)
 
 func destroy_platform():
 	for index in get_slide_count():
@@ -86,7 +118,5 @@ func jump():
 
 func short_jump():
 	velocity.y=min_jump_velocity
-
-
 
 

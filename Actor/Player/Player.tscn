@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Actor/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Actor/Actor.tscn" type="PackedScene" id=2]
@@ -13,6 +13,9 @@
 [ext_resource path="res://Actor/Player/Player_particles.gd" type="Script" id=11]
 [ext_resource path="res://Actor/Player/Player_states/Drop_fall.gd" type="Script" id=12]
 [ext_resource path="res://Actor/Player/Player_states/Dash.gd" type="Script" id=13]
+[ext_resource path="res://Actor/Player/Player_states/Wall_Slide.gd" type="Script" id=14]
+[ext_resource path="res://Actor/Player/Player_states/Wall_Jump.gd" type="Script" id=15]
+[ext_resource path="res://Actor/Player/Player_states/Interactating.gd" type="Script" id=16]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;"
@@ -28,7 +31,8 @@ colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 extents = Vector2( 31.6709, 32.0691 )
 
 [node name="Player" instance=ExtResource( 2 )]
-collision_mask = 3
+collision_layer = 32
+collision_mask = 31
 script = ExtResource( 1 )
 
 [node name="Idle" type="Node" parent="FSM" index="0"]
@@ -54,6 +58,15 @@ script = ExtResource( 13 )
 
 [node name="Smash" type="Node" parent="FSM" index="7"]
 script = ExtResource( 10 )
+
+[node name="Wall_Slide" type="Node" parent="FSM" index="8"]
+script = ExtResource( 14 )
+
+[node name="Wall_Jump" type="Node" parent="FSM" index="9"]
+script = ExtResource( 15 )
+
+[node name="Interactating" type="Node" parent="FSM" index="10"]
+script = ExtResource( 16 )
 
 [node name="Sprite" parent="Body" index="0"]
 material = SubResource( 2 )

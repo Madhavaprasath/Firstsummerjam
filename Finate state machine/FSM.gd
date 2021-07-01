@@ -16,6 +16,7 @@ func _physics_process(delta):
 		get_node(current_state).play_current_state(delta)
 		#if animation_player.current_animation!=current_state:
 			#animation_player.play(current_state)
+		print(current_state)
 	var next_state=get_node(current_state).check_exit_condition()
 	if next_state!=null:
 		previous_state=pop_state()
